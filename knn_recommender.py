@@ -27,7 +27,7 @@ def knn():
     num_items = len(df_ratings.movieId.unique())
     print('There are {} unique users and {} unique movies in this data set'.format(num_users, num_items))
     
-    popularity_thres = 5
+    popularity_thres = 50
 
     df_movies_cnt = pd.DataFrame(df_ratings.groupby('movieId').size(), columns=['count'])
     popular_movies = list(set(df_movies_cnt.query('count >= @popularity_thres').index))
