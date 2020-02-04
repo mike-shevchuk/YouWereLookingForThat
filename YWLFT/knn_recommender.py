@@ -1,3 +1,5 @@
+# download movies.csv and ratings.csv: https://grouplens.org/datasets/movielens/25m/
+
 import os
 import pickle
 import numpy as np
