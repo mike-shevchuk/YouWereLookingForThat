@@ -16,9 +16,7 @@ public class Article {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public void setContent(String content) {        this.content = content;    }
 
     @Override
     public String toString() {

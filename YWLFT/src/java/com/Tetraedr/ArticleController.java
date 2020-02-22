@@ -17,7 +17,6 @@ public class ArticleController {
         return "popup.html";
     }
 
-    //chrome-extension://hglecnfpombpokcccgpeapcceoekmjfb/popup.html#
     //@PutMapping("/{id}")
     //@RequestMapping(value = "/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     //
@@ -30,13 +29,7 @@ public class ArticleController {
         System.out.println("added");
         return "Article created.";
     }
-    /*public String createNewArticle(@RequestBody Article article) {
-        System.out.println("createNewArticle()");
-        articleService.saveArticle(article);
-        System.out.println(article.toString());
-        System.out.println("\n\n\n\n");
-        return "Article created.";
-    }*/
+
 /*
     @GetMapping("/{id}")
     public String getArticle(@PathVariable("id") long id, Model model) {
