@@ -1,4 +1,3 @@
-import re
 import pandas as pd
 import psycopg2 as ps2
 from nltk.stem import PorterStemmer
@@ -45,43 +44,53 @@ def get_stem(token):
 
 
 def count_unique_tokens_in_question(ques):
+    stem_count = Counter()
     for tweet_series in ques:
         tweet = tweet_series
         tokens = word_tokenize(tweet)
         for token in tokens:
             stem = get_stem(token)
             stem_count[stem] += 1
+    return stem_count
 
 #print recommendation
 
 def item(id):
     return ds.loc[ds['id'] == id]['description'].tolist()[0].split(' - ')[0]
 
-def recommend(item_id, num=5):
+def recommend(item_id, user_id):
 
-    recs = results[item_id][:num]
+    recs = results[item_id][:2]
     for rec in recs:
-        print("Recommended: " + item(rec[1]))
+        print("Recommended: "+ str(user_id) + ' ' + item(rec[1]))
+        st = str(item(rec[1]))
+        cur.execute("insert into recommend values (%s, %s);", (user_id, st))
+    conn.commit()
+    cur.execute("CREATE TABLE foo AS (SELECT DISTINCT * FROM recommend);  DROP TABLE recommend; ALTER TABLE foo RENAME TO recommend;")
+    cur.execute("SELECT * FROM recommend ORDER BY uid ASC")
+    conn.commit()
 
-cur.execute("select ques from us")
+def users_recomm(id_user, st_count):
+    dt = {k: v for k, v in sorted(dict(st_count).items(), key=lambda item: item[1])[::-1]}
+    list_pw = [x for x in dt.keys()][:5]
+    ls = []
+    for j in range(1, len(ds['id']+1)):
+        st = item(j)
+        for x in list_pw:
+            if x in st:
+                ls.append(j)
+                list_pw.remove(x)
+            continue
+    for j in ls:
+        recommend(item_id = j, user_id = id_user)
+
+cur.execute("select * from us")
 q = cur.fetchall()
 conn.commit()
 
-quest = [i[0] for i in q]
-count_unique_tokens_in_question(quest)
+id_users = {i[0] for i in q}
 
-dt = {k: v for k, v in sorted(dict(stem_count).items(), key=lambda item: item[1])[::-1]}
-list_pw = [x for x in dt.keys()][:5]
-
-ls = []
-
-for i in range(1, len(ds['id']+1)):
-    st = item(i)
-    for x in list_pw:
-        if x in st:
-            ls.append(i)
-            list_pw.remove(x)
-        continue
-
-for i in ls:
-    recommend(item_id = i)
+for i in id_users:
+    string_to_stem = [x[1] for x in q if x[0] == i]
+    st_count = count_unique_tokens_in_question(string_to_stem)
+    users_recomm(i, st_count)
