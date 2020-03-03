@@ -7,7 +7,10 @@
   <groupId>com.Tetraedr</groupId>
   <artifactId>YWLFT</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <modules>
+    <module>TelegramBot</module>
+  </modules>
+  <packaging>pom</packaging>
 
   <name>YWLFT Maven Webapp</name>
   <!-- FIXME change it to the project's website -->

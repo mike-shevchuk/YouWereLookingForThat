@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/TelegramBot/TelegramBot.iml" filepath="$PROJECT_DIR$/TelegramBot/TelegramBot.iml" />
       <module fileurl="file://$PROJECT_DIR$/YWLFT.iml" filepath="$PROJECT_DIR$/YWLFT.iml" />
     </modules>
   </component>
